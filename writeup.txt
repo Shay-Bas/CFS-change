@@ -1,0 +1,32 @@
+Modifying the CFS Scheduler
+
+A. Description
+
+ As a part of this second assignment we were required to add a soft real-time requirement to a process – say something like each process, that requires soft real-time guarantees must receive atleast x units of time-slice. Every time the scheduler is called, we checked if the real-time guarantees of process with soft realtime requirements are being met or not. We gave higher priority to a processes soft-realtime requirement compared to the vruntime that is normally considered.
+ 
+B. Implementation
+ 
+
+C. Usage
+ 
+ 	a. User Input
+
+		The user needs to enter the PID of a process that they need to change the priority of and the s\_runtime or the soft realtime value that they want to allot to the process.
+
+D. User Output
+
+The output would be the time taken for a program to execute.
+This program would be made to run in two cases -
+
+1. When there is no soft real time given to the process
+2. When there is a soft real time given to the process by the user
+
+
+We will observe that the time taken for the process to run without the soft real time guarantee is more than that of when the process is run with soft real time guarantee. 
+
+E. Error Values
+
+We have handled two input errors. They are -
+
+1. In case the user gives an invalid PID number (PID number of a process that doesn't exist), we notify it to the user.
+2. In case the user tries to give a negative soft real time value, we notify it to the user. 

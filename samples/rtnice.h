@@ -1,0 +1,1 @@
+long rtnice(int pid, long s_runtime);
