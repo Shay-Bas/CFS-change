@@ -5,6 +5,13 @@ A. Description
  As a part of this second assignment we were required to add a soft real-time requirement to a process – say something like each process, that requires soft real-time guarantees must receive atleast x units of time-slice. Every time the scheduler is called, we checked if the real-time guarantees of process with soft realtime requirements are being met or not. We gave higher priority to a processes soft-realtime requirement compared to the vruntime that is normally considered.
  
 B. Implementation
+
+We made changes in two functions - 
+	1. entity_before - We added the code to compare the s_runtimes of the two input sched_entities. In case both of them are 0 (none are allotted a s_runtime), we return their comparison according to their vruntimes.
+	
+	2.update_curr - If any sched_entity has a s_runtime value > 0, we update the s_runtime rather than the vruntime.
+
+Apart from that, we have added the initial value of s_runtime inside linux-3.19/kernel/sched/core.c in the function __sched_fork.
  
 
 C. Usage

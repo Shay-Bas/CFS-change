@@ -96,3 +96,41 @@ index fe331fc..9d1ded7 100644
  
  	if (entity_is_task(curr)) {
  		struct task_struct *curtask = task_of(curr);
+diff --git a/linux-3.19/rtnice/Makefile b/linux-3.19/rtnice/Makefile
+new file mode 100644
+index 0000000..57f75a2
+--- /dev/null
++++ b/linux-3.19/rtnice/Makefile
+@@ -0,0 +1 @@
++obj-y := rtnice.o
+diff --git a/linux-3.19/rtnice/rtnice.c b/linux-3.19/rtnice/rtnice.c
+new file mode 100644
+index 0000000..d7f8c3d
+--- /dev/null
++++ b/linux-3.19/rtnice/rtnice.c
+@@ -0,0 +1,25 @@
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/pid.h>
++#include <linux/pid_namespace.h>
++#include <linux/string.h>
++#include <linux/syscalls.h>
++#include <linux/fcntl.h>
++#include <asm/uaccess.h>
++#include <uapi/asm-generic/errno.h>
++
++struct pid *pid_struct;
++struct task_struct *task;
++
++asmlinkage long sys_rtnice(int pid, long s_runtime)
++{
++	if(s_runtime < 0)
++		return -EINVAL;
++	pid_struct = find_get_pid(pid);
++	if(pid_struct == NULL)
++		return -EINVAL;
++	task = pid_task(pid_struct, PIDTYPE_PID);
++	task->se.s_runtime = s_runtime;
++
++	return 0;
++}
